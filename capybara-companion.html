@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capybara Companion – Reise zu innerer Ruhe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --sand-dark: #e8d8c3;
+    --bark: #7c5c3e;
+    --bark-light: #a07850;
+    --moss: #6b7c5a;
+    --moss-light: #8a9b70;
+    --water: #5a7a8c;
+    --water-light: #8fb3c4;
+    --cream: #fdf8f2;
+    --warm-brown: #4a3728;
+    --soft-gold: #c4a05a;
+    --text-main: #3a2e24;
+    --text-soft: #7a6557;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--cream);
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(196,160,90,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(107,124,90,0.08) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(124,92,62,0.15);
+  }
+
+  .capy-icon {
+    font-size: 4rem;
+    display: block;
+    animation: float 4s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 12px rgba(124,92,62,0.2));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 600;
+    color: var(--bark);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  header h1 span {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--bark-light);
+    font-size: 0.65em;
+    letter-spacing: 0.08em;
+    margin-top: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-top: 0.8rem;
+    letter-spacing: 0.15em;
+  }
+
+  .tagline-pills {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(124,92,62,0.08);
+    color: var(--bark);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid rgba(124,92,62,0.15);
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    display: grid;
+    gap: 2rem;
+  }
+
+  /* ── SECTION CARDS ── */
+  .card {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(124,92,62,0.12);
+    border-radius: 16px;
+    padding: 1.8rem;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 20px rgba(58,46,36,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .card.speak::before { background: linear-gradient(90deg, var(--bark-light), var(--soft-gold)); }
+  .card.chat::before { background: linear-gradient(90deg, var(--moss), var(--moss-light)); }
+  .card.impulse::before { background: linear-gradient(90deg, var(--water), var(--water-light)); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--bark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .card-title .icon { font-size: 1.3rem; }
+
+  /* ── SPEAK SECTION ── */
+  .speak-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid rgba(124,92,62,0.2);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    background: rgba(245,237,224,0.5);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+
+  textarea:focus { border-color: var(--bark-light); background: rgba(245,237,224,0.8); }
+  textarea::placeholder { color: var(--text-soft); font-style: italic; }
+
+  .btn-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: 'Crimson Pro', Georgia, serif;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-primary {
+    background: var(--bark);
+    color: #fdf8f2;
+    padding: 0.6rem 1.4rem;
+    letter-spacing: 0.05em;
+  }
+  .btn-primary:hover { background: var(--bark-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,92,62,0.3); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-soft {
+    background: rgba(124,92,62,0.1);
+    color: var(--bark);
+    padding: 0.6rem 1.1rem;
+  }
+  .btn-soft:hover { background: rgba(124,92,62,0.18); }
+
+  .btn-moss {
+    background: var(--moss);
+    color: #fdf8f2;
+    padding: 0.6rem 1.2rem;
+  }
+  .btn-moss:hover { background: var(--moss-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(107,124,90,0.3); }
+
+  .btn-water {
+    background: var(--water);
+    color: #fdf8f2;
+    padding: 0.7rem 1.3rem;
+    font-size: 1rem;
+  }
+  .btn-water:hover { background: var(--water-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(90,122,140,0.3); }
+
+  /* ── SPEAKING INDICATOR ── */
+  .speaking-bar {
+    display: none;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--bark-light);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .speaking-bar.active { display: flex; }
+  .speaking-dots { display: flex; gap: 3px; }
+  .speaking-dots span {
+    width: 6px; height: 6px;
+    background: var(--bark-light);
+    border-radius: 50%;
+    animation: pulse-dot 1.2s ease-in-out infinite;
+  }
+  .speaking-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .speaking-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse-dot {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ── CHAT SECTION ── */
+  .chat-messages {
+    min-height: 200px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(124,92,62,0.2) transparent;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(124,92,62,0.2); border-radius: 2px; }
+
+  .msg {
+    max-width: 88%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1.65;
+    animation: msg-in 0.3s ease;
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.capy {
+    background: linear-gradient(135deg, rgba(245,237,224,0.9), rgba(232,216,195,0.8));
+    border: 1px solid rgba(124,92,62,0.12);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.user {
+    background: rgba(107,124,90,0.12);
+    border: 1px solid rgba(107,124,90,0.15);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    color: var(--warm-brown);
+  }
+
+  .msg-sender {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 0.3rem;
+    font-style: normal;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .chat-input {
+    flex: 1;
+    border: 1px solid rgba(124,92,62,0.2);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1rem;
+    color: var(--text-main);
+    background: rgba(245,237,224,0.4);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: var(--moss); background: rgba(245,237,224,0.7); }
+  .chat-input::placeholder { color: var(--text-soft); font-style: italic; }
+
+  /* ── IMPULSE SECTION ── */
+  .impulse-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .impulse-output {
+    min-height: 60px;
+    background: linear-gradient(135deg, rgba(245,237,224,0.6), rgba(232,216,195,0.4));
+    border: 1px solid rgba(124,92,62,0.12);
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-main);
+    font-style: italic;
+    display: none;
+    animation: msg-in 0.4s ease;
+    position: relative;
+  }
+
+  .impulse-output.visible { display: block; }
+
+  .impulse-output .impulse-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bark-light);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-soft);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin: 0.5rem 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(124,92,62,0.12);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    border-top: 1px solid rgba(124,92,62,0.1);
+    line-height: 1.7;
+  }
+
+  footer a { color: var(--bark-light); text-decoration: none; }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .card {
+    animation: card-rise 0.5s ease both;
+  }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.2s; }
+
+  @keyframes card-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .btn-row { flex-direction: column; }
+    .impulse-buttons { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="capy-icon">🦫</span>
+  <h1>
+    Capybara Companion
+    <span>Reise zu innerer Ruhe</span>
+  </h1>
+  <p class="subtitle">Sanft. Wach. Gemeinsam.</p>
+  <div class="tagline-pills">
+    <span class="pill">Nichts muss</span>
+    <span class="pill">Manches darf</span>
+    <span class="pill">Alles hat seine Zeit</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- SPEAK SECTION -->
+  <div class="card speak">
+    <div class="card-title">
+      <span class="icon">🔊</span> Capybara spricht
+    </div>
+    <div class="speak-area">
+      <textarea id="speakText" placeholder="Schreib etwas, das das Capybara für dich sprechen soll …">Wir Capybaras sind ruhig. Wir sind neugierig. Wir wissen: Alles hat seine Zeit. Und so beginnt unsere Reise.</textarea>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="startSpeaking()">▶ Sprechen</button>
+        <button class="btn-soft" onclick="stopSpeaking()">■ Stopp</button>
+      </div>
+      <div class="speaking-bar" id="speakingBar">
+        <div class="speaking-dots"><span></span><span></span><span></span></div>
+        <span>Capybara spricht gerade …</span>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text-soft); font-style:italic; margin-top:0.2rem;">
+        🎙️ Stimme: <span id="voiceLabel">wird geladen …</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT SECTION -->
+  <div class="card chat">
+    <div class="card-title">
+      <span class="icon">🌿</span> Sprich mit dem Capybara
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg capy">
+        <div class="msg-sender">🦫 Capybara</div>
+        Hallo. Ich bin da. Erzähl mir, was gerade in dir ist — oder einfach, wie dein Tag war. Wir müssen nirgends hineilen.
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Was bewegt dich gerade …" onkeydown="if(event.key==='Enter') sendMessage()">
+      <button class="btn-moss" onclick="sendMessage()">Senden</button>
+    </div>
+  </div>
+
+  <!-- IMPULSE SECTION -->
+  <div class="card impulse">
+    <div class="card-title">
+      <span class="icon">🌱</span> Impulse für heute
+    </div>
+
+    <div class="impulse-buttons">
+      <button class="btn-water" onclick="showImpulse('abend')">🌙 Abendritual</button>
+      <button class="btn-water" onclick="showImpulse('morgen')">☀️ Morgenritual</button>
+      <button class="btn-water" onclick="showImpulse('mini')">✏️ Mini-Übung</button>
+    </div>
+
+    <div class="impulse-output" id="impulseOutput"></div>
+  </div>
+
+</main>
+
+<footer>
+  🦫 Kein medizinischer Rat. Das Capybara ist ein Begleiter, kein Therapeut.<br>
+  Wenn du dich in einer Krise fühlst, hol dir bitte Unterstützung vor Ort.<br>
+  <a href="https://www.telefonseelsorge.de" target="_blank">Telefonseelsorge: 0800 111 0 111</a>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   TEXT TO SPEECH  –  warm, young female voice
+══════════════════════════════════════════ */
+let synth = window.speechSynthesis;
+let selectedVoice = null;
+
+// Voice preference: young, warm, female German voices first
+const PREFERRED_VOICES = [
+  'Google Deutsch',          // Chrome – clear, natural German female
+  'Anna',                    // macOS – Apple's warm German female
+  'Petra',                   // Windows – female DE
+  'Steffi',                  // Windows – female DE
+  'Helena',                  // older macOS German
+  'de-DE-KatjaNeural',       // Edge Neural – very natural female
+  'Microsoft Katja',         // Edge/Windows Neural female
+  'de-DE-AmalaNeural',       // Edge Neural – young warm female ⭐
+  'Amala',
+  'Katja',
+];
+
+function pickBestVoice() {
+  const voices = synth.getVoices();
+  if (!voices.length) return null;
+
+  // 1. Try preferred list by name match
+  for (const pref of PREFERRED_VOICES) {
+    const match = voices.find(v => v.name.includes(pref));
+    if (match) return match;
+  }
+
+  // 2. Fallback: any female-sounding de-DE voice
+  const deVoices = voices.filter(v => v.lang.startsWith('de'));
+  // Heuristic: female voices often have lower pitch names or "female" in name
+  const femaleDE = deVoices.find(v =>
+    /anna|petra|steffi|katja|amala|lena|maria|sophie|sarah|julia|female|frau/i.test(v.name)
+  );
+  if (femaleDE) return femaleDE;
+
+  // 3. Any German voice
+  if (deVoices.length) return deVoices[0];
+
+  return voices[0];
+}
+
+// Build voice once voices load (they can be async)
+function initVoice() {
+  selectedVoice = pickBestVoice();
+  updateVoiceLabel();
+}
+window.speechSynthesis.onvoiceschanged = initVoice;
+// Also try immediately (some browsers have voices ready)
+setTimeout(initVoice, 200);
+
+function updateVoiceLabel() {
+  const el = document.getElementById('voiceLabel');
+  if (el && selectedVoice) el.textContent = selectedVoice.name;
+}
+
+function makeUtterance(text) {
+  // Strip HTML tags if any
+  const clean = text.replace(/<[^>]*>/g, '').replace(/[✨✏️🌙☀️🦫🌿]/g, '');
+
+  const utt = new SpeechSynthesisUtterance(clean);
+  utt.lang = 'de-DE';
+
+  // Warm, slightly playful settings
+  utt.rate  = 0.82;   // gentle pace – not too slow
+  utt.pitch = 1.18;   // slightly higher = younger, warmer
+  utt.volume = 1.0;
+
+  const v = selectedVoice || pickBestVoice();
+  if (v) utt.voice = v;
+
+  return utt;
+}
+
+function startSpeaking() {
+  const text = document.getElementById('speakText').value.trim();
+  if (!text) return;
+  stopSpeaking();
+
+  const utt = makeUtterance(text);
+  utt.onstart = () => document.getElementById('speakingBar').classList.add('active');
+  utt.onend   = () => document.getElementById('speakingBar').classList.remove('active');
+  utt.onerror = () => document.getElementById('speakingBar').classList.remove('active');
+
+  synth.speak(utt);
+}
+
+function stopSpeaking() {
+  synth.cancel();
+  document.getElementById('speakingBar').classList.remove('active');
+}
+
+function speakText(text) {
+  stopSpeaking();
+  const utt = makeUtterance(text);
+  synth.speak(utt);
+}
+
+/* ═══════════════════════════════════════════
+   CHAT RESPONSES
+══════════════════════════════════════════ */
+const responses = {
+  schlaf: [
+    "Manchmal raubt uns nicht der heutige Tag den Schlaf, sondern etwas viel Älteres. Etwas, das einmal gefährlich war. Dein Körper weiß es noch nicht – dass jetzt Sicherheit da ist. Atme ruhig ein. Und noch langsamer wieder aus.",
+    "Auch Wasserschweine schlafen nicht immer durch. Wir bleiben einfach da – warm, ruhig, geduldig. Wenn du wach liegst, leg eine Hand auf deinen Körper und sag leise: Ich bin bereit, mir selbst Sicherheit zu geben.",
+    "Wachsein ist keine Schwäche. Mancher Körper hat lange aufgepasst. Heute musst du nicht kämpfen. Heute darfst du einfach da liegen. Atmen. Sein."
+  ],
+  angst: [
+    "Manche Capybaras haben Angst vor dem Fluss – dabei ist die Kokosnuss oft eine größere Gefahr. Schreib deine Angst auf. Allein dadurch, dass sie auf dem Papier steht, verliert sie etwas von ihrer Macht. Sie ist nicht mehr nur in deinem Kopf.",
+    "Ängste sind wie kleine Steine am Wegesrand. Du darfst sie sehen – aber du musst sie nicht mittragen. Schreib sie auf. Und geh dann weiter.",
+    "Heute geht es nicht darum, die Angst loszuwerden. Sondern darum, ihr ruhig ins Gesicht zu schauen. Was ist wirklich da? Und was erzählst du dir vielleicht nur?"
+  ],
+  stress: [
+    "Wann forderst du dich selbst besonders stark? Wie oft sagst du innerlich: Ich muss es perfekt machen? Wir Wasserschweine schaffen alles nicht durch Druck – sondern durch Entscheidung und sanfte Wiederholung.",
+    "Du musst nicht 100 % geben. Manchmal reicht es, etwas zu 80 % zu tun – um mehr Luft, mehr Ruhe für dich zu haben. Das ist keine Schwäche. Das ist Weisheit.",
+    "Stress hat oft nichts mit dem jetzigen Augenblick zu tun. Er kommt manchmal aus einer Zeit, in der Anspannung normal wurde. Dein Körper lernt gerade, dass er jetzt loslassen darf."
+  ],
+  entscheidung: [
+    "Vielleicht wissen wir erst am Ende der Reise, wie dieses Abenteuer wirklich heißt. Für jetzt reicht es, ihm Raum zu geben. Die Zukunft wird zeigen, welcher Weg der richtige ist.",
+    "Nichts muss. Manches darf. Du kannst beide Seiten nebeneinander stehen lassen – und dann spüren, welche sich stimmiger anfühlt. Nicht was richtig ist. Was sich wahr anfühlt.",
+    "Stell dir die Entscheidung, die vor dir liegt, ganz ruhig vor. Beide Wege. Wie fühlt sich jeder an – in zehn Jahren? Der Körper weiß oft schon, was der Kopf noch abwägt."
+  ],
+  natur: [
+    "Stell dir einen alten, großen Baum vor. Aus seinen Pfoten wachsen Wurzeln tief in die Erde – kilometerweit. Spür diese Verbindung. Spür die Ruhe. Du bist auch ein solcher Baum.",
+    "Wald ist nicht draußen. Fluss ist nicht getrennt. Alles gehört zusammen. Wenn du kannst: Geh für einen Moment raus. Spür die Luft. Lass es einfach passieren.",
+    "Die alten Bäume wissen etwas, was wir manchmal vergessen: dass Wachsen langsam geht. Dass Wurzeln wichtiger sind als Äste. Und dass man dem Himmel entgegenwachsen kann, während man tief in der Erde verankert ist."
+  ],
+  atem: [
+    "Atme ruhig ein – vier Sekunden lang. Lass die Lungen weit werden, den Bauch weich anwachsen. Und dann noch langsamer wieder heraus – acht Sekunden. Du musst es nicht perfekt machen. Gedanken kommen. Komm einfach immer wieder zurück.",
+    "Oft ist es so: Wenn wir lange verschreckt waren, haben wir aufgehört, wirklich zu atmen. Heute machst du etwas sehr Einfaches. Du atmest. Tief. Fest. Langsam. Und mit jedem Ausatmen lässt du etwas ziehen.",
+    "Luft ist etwas unglaublich Wertvolles. Sie gibt Leben. Und sie kann Ruhe schenken – wenn wir ihr Raum lassen. Einatmen: Kraft. Ausatmen: alles, was du nicht mehr brauchst."
+  ],
+  tagebuch: [
+    "Schreib einfach. Ohne nachzudenken, ob es gut oder richtig ist. Lass die Worte kommen, wie sie wollen. Manchmal passiert das Wesentliche im Schreiben – ganz leise.",
+    "Nimm den Stift und lass ihn wild werden. Nicht später. Jetzt. Denn später ist es oft weg – verblasst, verschwunden. Lass Worte entstehen, so wie sie entstehen wollen.",
+    "Ein Reisetagebuch ist kein Bericht. Es ist eine Spur. Eine Spur von dem, was du erlebt, gefühlt, geträumt hast. Es muss nicht schön sein. Es muss nur ehrlich sein."
+  ],
+  trauer: [
+    "Manches will nicht sofort gelingen. Manche Gefühle brauchen Zeit – nicht weil etwas falsch ist, sondern weil noch nicht alles verarbeitet wurde. Du darfst da sein, wo du gerade bist.",
+    "Wir Wasserschweine werden nicht gejagt, wenn eines von uns traurig ist. Wir bleiben einfach daneben. So bin ich jetzt auch bei dir. Du bist nicht allein damit.",
+    "Gib dir ein paar Wochen. Nicht als Aufgabe – als Einladung. Jedes kleine Nachlassen der Anspannung ist schon ein Erfolg. Und Erfolge dürfen gefeiert werden, leise, ohne großes Tamtam."
+  ],
+  müde: [
+    "Leg dich hin, so wie es gerade geht. Atme ruhig ein. Lass die Luft etwas langsamer wieder hinaus. Mehr brauchst du nicht. Auch Wachsein ist erlaubt.",
+    "Du musst nicht schlafen. Du musst nichts erreichen. Dein Körper lernt wieder, was Ruhe ist. Und das genügt für heute.",
+    "Gib dir ein paar Wochen. Nicht als Pflicht – als Einladung. Jede halbe Stunde Schlaf ist ein Erfolg."
+  ]
+};
+
+const defaultResponses = [
+  "Das klingt wichtig. Was braucht es gerade – mehr Stille oder mehr Bewegung? Wir schauen das gemeinsam an.",
+  "Alles hat seine Zeit. Und manchmal beginnt Klarheit damit, etwas einfach so stehen zu lassen, wie es ist.",
+  "Ich höre dich. Wir müssen das nicht sofort auflösen. Manchmal reicht es, da zu sein und zu atmen.",
+  "Manchmal geschieht das Wesentliche ganz leise. Vielleicht hat das, was du sagst, noch Raum, sich zu entfalten.",
+  "Du bist auf dieser Reise. Nicht, weil du weit gehen musst – sondern weil du offen bist für das, was dir begegnet.",
+  "Nichts muss. Manches darf. Was möchtest du gerade einfach nur sein lassen?",
+  "Das Capybara fragt leise: Was würde sich heute gut anfühlen? Nur ein kleiner Schritt. Nur ein Atemzug weiter.",
+  "Aus Ruhe heraus lässt sich sehr viel bewegen. Du bist schon da – das ist mehr als genug."
+];
+
+function getCapyResponse(userMsg) {
+  const msg = userMsg.toLowerCase();
+  for (const [keyword, replies] of Object.entries(responses)) {
+    if (msg.includes(keyword)) {
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
+  }
+  return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+
+  // Capybara thinks…
+  setTimeout(() => {
+    const reply = getCapyResponse(text);
+    addMessage(reply, 'capy');
+
+    // Auto-speak reply with warm female voice
+    speakText(reply);
+  }, 600 + Math.random() * 400);
+}
+
+function addMessage(text, sender) {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `msg ${sender}`;
+
+  const senderLabel = sender === 'capy' ? '🦫 Capybara' : '🌿 Du';
+  div.innerHTML = `<div class="msg-sender">${senderLabel}</div>${text}`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+/* ═══════════════════════════════════════════
+   IMPULSE
+══════════════════════════════════════════ */
+const impulses = {
+  abend: [
+    {
+      label: "🌙 Abendritual",
+      text: `Wir Wasserschweine machen am Abend nichts Besonderes. Wir setzen uns hin. So, wie es sich gerade gut anfühlt.
+
+<strong>Atme zuerst.</strong> Einmal ruhig ein. Und lass die Luft ein kleines bisschen langsamer wieder hinausfließen. Nicht perfekt. Nicht tief. Nur ein Hauch länger.
+
+Wenn Gedanken kommen, lass sie vorbeiziehen – wie Blätter im Wasser.
+
+<em>✨ Mantra für diese Nacht:</em>
+„Ruhe, die mich entspannen lässt."`
+    },
+    {
+      label: "🌙 Abendritual",
+      text: `Der Tag ist vorbei. Alles, was du heute getan hast, darf jetzt ruhen.
+
+Leg eine Hand auf deinen Bauch. Spür, wie er sich mit dem Atem hebt und senkt. Das ist schon alles. Du musst nichts mehr erreichen.
+
+<strong>Vier Sekunden einatmen.</strong> Bauch weich anwachsen lassen. Acht Sekunden langsam ausatmen.
+
+<em>✨ Satz für die Nacht:</em>
+„Ich bin bereit, mir selbst Sicherheit und Ruhe zu geben."`
+    }
+  ],
+  morgen: [
+    {
+      label: "☀️ Morgenritual",
+      text: `Und wieder geht die Sonne auf. Wir Wasserschweine springen morgens nicht aus dem Bett. Wir hetzen nicht.
+
+Bleib noch einen Moment liegen. Spür deinen Atem – nur wahrnehmen, nicht verändern.
+
+<strong>Frage für diesen Tag:</strong>
+Was ist das, was heute entstehen möchte? Gib ihm ein Wort. Vielleicht zwei. Maximal drei kurze Worte.
+
+<em>✨ Begleitsatz:</em>
+„Diese Ruhe begleitet mich durch diesen Tag."`
+    },
+    {
+      label: "☀️ Morgenritual",
+      text: `Ein neuer Tag bricht an. Alles ist noch offen. Noch ungeschrieben.
+
+Setz dich kurz hin. Atme ruhig ein. Und dann lies diese Sätze – langsam, einen nach dem anderen:
+
+„Ruhe, die mir Kraft schenkt."
+„Ruhe, die mich wieder in Einklang bringt."
+„Ruhe, die mich glücklich macht."
+
+<strong>Wähle den Satz, der sich heute richtig anfühlt.</strong> Nur einen. Er darf dich durch den Tag begleiten.`
+    }
+  ],
+  mini: [
+    {
+      label: "✏️ Mini-Übung: Der Baum",
+      text: `Stell dir einen alten, großen Baum vor. Einen einzigen.
+
+<strong>Aus deinen Füßen wachsen Wurzeln</strong> – tief in die Erde, kilometerweit, verbunden mit allem, was ist.
+
+Dann richte dich nach oben: Äste wachsen aus deinem Kopf in den Himmel. Blätter sprießen.
+
+Spür diese Verbindung. Die Ruhe. Die Kraft.
+
+Wenn du magst: <em>Male oder zeichne diesen Baum.</em> Schreib auf die Wurzeln, was dich hält. Auf die Äste, was du werden möchtest.`
+    },
+    {
+      label: "✏️ Mini-Übung: Zehn Titel",
+      text: `Dein heutiges Abenteuer hat noch keinen Namen.
+
+Nimm dir einen Stift und schreib <strong>zehn mögliche Titel</strong> für diesen Tag – ganz frei, ohne nachzudenken ob sie gut sind.
+
+Dann: Wähle <em>drei</em>, die sich am stimmigsten anfühlen. Markiere sie.
+
+Der endgültige Titel muss heute noch nicht gefunden werden. Es reicht, ihm Raum zu geben.`
+    },
+    {
+      label: "✏️ Mini-Übung: Die Angst-Liste",
+      text: `Schreib alles auf, was dich gerade besorgt. Alle Ängste. Ganz ruhig. Ohne Ordnung.
+
+Allein dadurch, dass sie auf dem Papier stehen, verlieren manche von ihnen schon ein wenig von ihrer Macht. Sie sind nicht mehr nur im Kopf. Sie sind sichtbar geworden.
+
+Danach: Lass sie dort stehen. Wie kleine Steine am Wegesrand.
+
+<em>Du darfst sie sehen – aber du musst sie nicht mittragen.</em>`
+    },
+    {
+      label: "✏️ Mini-Übung: Vier Bilder",
+      text: `Male vier kleine Bilder – in jedem Bild siehst du ein einziges Capybara.
+
+Es gibt keine richtige Form und kein Muss, wie etwas schön sein soll. Gemalt, gezeichnet, gekritzelt oder erfunden.
+
+Was macht das Capybara?
+Wo ist es?
+Was fühlt es?
+
+<em>Alles ist erlaubt. Denn wir sind frei.</em>`
+    }
+  ]
+};
+
+function showImpulse(type) {
+  const arr = impulses[type];
+  const item = arr[Math.floor(Math.random() * arr.length)];
+
+  const output = document.getElementById('impulseOutput');
+  output.innerHTML = `<div class="impulse-label">${item.label}</div><div>${item.text.replace(/\n/g, '<br>')}</div>`;
+  output.classList.add('visible');
+  output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Speak the impulse
+  const plainText = item.text.replace(/<[^>]+>/g, '').replace(/✨|✏️|🌙|☀️/g, '');
+  speakText(plainText);
+}
+</script>
+
+</body>
+</html>
